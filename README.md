@@ -3,3 +3,4 @@ This project is a web-based platform designed for solo travelers who want to exp
 # output
 ![Image](https://github.com/user-attachments/assets/82226980-472c-4b6f-83aa-e14e73ae2955)
 ![Image](https://github.com/user-attachments/assets/4ece9cb6-fd76-4fb2-af1f-28b2d2a1dd38)
+![Image](https://github.com/user-attachments/assets/d6474f52-81a1-4bad-b7f7-5eede2af6959)
