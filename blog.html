@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f5f7fa, #e0f7fa);
+    }
+
+    nav {
+      background-color: #00695c;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00695c;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    #blog-posts > div {
+      background-color: #fefefe;
+      border-left: 6px solid #00796b;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 25px;
+    }
+
+    #blog-posts h3 {
+      color: #00796b;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    #blog-posts p {
+      color: #444;
+      font-size: 16px;
+      margin: 6px 0;
+    }
+
+    .navbar {
+      background-color: #e8e5e5;
+      color: rgb(22, 20, 20);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: rgb(231, 225, 225);
+      border-radius: 25px;
+      padding: 5px 12px;
+    }
+
+    .search-container input {
+      border: none;
+      outline: none;
+      border-radius: 25px;
+      padding: 6px 10px;
+      font-size: 16px;
+      width: 150px;
+    }
+
+    .material-icons, .fas {
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .material-icons:hover, .fas:hover {
+      color: #ffd740;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    form input[type="text"],
+    form textarea {
+      padding: 12px 18px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      width: 100%;
+    }
+
+    form button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 170px;
+      align-self: center;
+    }
+
+    form button:hover {
+      background-color: #004d40;
+    }
+
+    img {
+      border-radius: 10px;
+      margin: 15px 0;
+      max-width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Top Navbar -->
+<div class="navbar">
+  <!-- Left side -->
+  <div class="navbar-left">
+    <i class="fas fa-user-circle" style="font-size: 28px; cursor: pointer;"></i> <!-- Profile Icon -->
+    <h2>Solo Travel</h2>
+  </div>
+
+  <!-- Right side -->
+  <div class="navbar-right">
+    <!-- Search Container -->
+    <div class="search-container">
+      <i class="fas fa-search" style="font-size: 18px; color: #555;"></i> <!-- Search Icon -->
+      <input type="text" placeholder="Search...">
+    </div>
+
+    <!-- Navigation Icons -->
+<!-- Navigation Icons -->
+<i class="fas fa-map-marked-alt" style="font-size: 20px; cursor: pointer;" onclick="window.location.href='plans.html'"></i> <!-- Plans Logo -->
+<i class="fas fa-pencil-alt" style="font-size: 20px; cursor: pointer;" onclick="window.location.href='blog.html'"></i> <!-- Blog Pencil Icon -->
+<i class="fas fa-sign-out-alt" id="logout-icon" style="font-size: 20px; cursor: pointer;"></i> <!-- Logout Icon -->
+
+  </div>
+</div>
+
+<!-- Blog Content starts -->
+<div class="container">
+  <h2>Read Blogs</h2>
+  <div id="blog-posts"></div>
+
+  <h2>Write a Blog</h2>
+  <form id="blog-form">
+    <input type="text" id="author" placeholder="Your Name" required>
+    <input type="text" id="title" placeholder="Place Name" required>
+    <textarea id="review" placeholder="Write your experience..." rows="5" required></textarea>
+
+    <label for="image-upload" style="font-weight: bold; color: #00695c;">Add an Image:</label>
+    <input type="file" id="image-upload" accept="image/*">
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  const blogForm = document.getElementById('blog-form');
+  const blogPosts = document.getElementById('blog-posts');
+  const imageInput = document.getElementById('image-upload');
+  const logoutIcon = document.getElementById('logout-icon');
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
+    savedBlogs.forEach(blog => renderBlog(blog));
+  });
+
+  blogForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const author = document.getElementById('author').value;
+    const title = document.getElementById('title').value;
+    const review = document.getElementById('review').value;
+    const date = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const blog = { author, title, review, date, image: '' };
+
+    if (imageInput.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        blog.image = e.target.result;
+        saveAndRender(blog);
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      saveAndRender(blog);
+    }
+
+    blogForm.reset();
+  });
+
+  function saveAndRender(blog) {
+    const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+    blogs.push(blog);
+    localStorage.setItem('blogs', JSON.stringify(blogs));
+    renderBlog(blog);
+  }
+
+  function renderBlog(blog) {
+    const newDiv = document.createElement('div');
+    newDiv.innerHTML = `
+      <h3>${blog.title}</h3>
+      ${blog.image ? `<img src="${blog.image}" style="width:100%; max-width:300px;">` : ''}
+      <p><strong>Author:</strong> ${blog.author}</p>
+      <p><strong>Date:</strong> ${blog.date}</p>
+      <p><strong>Review:</strong> ${blog.review}</p>
+    `;
+    blogPosts.appendChild(newDiv);
+  }
+
+  logoutIcon.addEventListener('click', function () {
+    localStorage.removeItem('user');
+    window.location.href = '/login.html'; // Change this if your login page has a different name
+  });
+</script>
+
+</body>
+</html>
