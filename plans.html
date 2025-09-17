@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travel Plans</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Navbar */
+    .navbar {
+      background-color: #e8e5e5;
+      color: rgb(22, 20, 20);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: rgb(231, 225, 225);
+      border-radius: 25px;
+      padding: 5px 12px;
+    }
+
+    .search-container input {
+      border: none;
+      outline: none;
+      border-radius: 25px;
+      padding: 6px 10px;
+      font-size: 16px;
+      width: 150px;
+    }
+
+    .material-icons {
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .material-icons:hover {
+      color: #ffd740;
+    }
+
+    /* Plan card */
+    .plan-card {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px;
+      display: inline-block;
+      width: 250px;
+      height: 480px; /* Increased height to accommodate new info */
+      vertical-align: top;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .select-btn {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .select-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .plan-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Page container */
+    .container {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <div class="navbar">
+    <!-- Left side -->
+    <div class="navbar-left">
+      <span class="material-icons">account_circle</span> <!-- Profile Icon -->
+      <h2>Solo Travel</h2>
+    </div>
+
+    <!-- Right side -->
+    <div class="navbar-right">
+      <!-- Search Container -->
+      <div class="search-container">
+        <span class="material-icons">search</span> <!-- Search Icon -->
+        <input type="text" placeholder="Search...">
+      </div>
+      
+      <!-- Navigation Icons -->
+      <span class="material-icons" onclick="window.location.href='plans.html'">map</span> <!-- Plans Logo -->
+      <span class="material-icons" onclick="window.location.href='blog.html'">edit</span> <!-- Blog Icon -->
+      <span class="material-icons" onclick="logout()">logout</span> <!-- Logout Icon -->
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Explore Solo Travel Plans</h2>
+    <div id="plans-container"></div>
+  </div>
+
+  <script>
+    const plansContainer = document.getElementById('plans-container');
+
+    // Predefined 20 image sources
+    const images = [
+      "https://deih43ym53wif.cloudfront.net/cola-beach-goa-india-shutterstock_772145203_82b97bd9df.jpeg", 
+      "https://theindiaexplorer.com/wp-content/uploads/2023/03/Pangong_lake-transformed.jpeg", 
+      "https://th.bing.com/th/id/R.4b511892af03f25af38d7632a4eafe54?rik=84rDE1yeogG4VQ&riu=http%3a%2f%2f3.bp.blogspot.com%2f-cz8zCR5RpSU%2fVOAtC7AVnUI%2fAAAAAAAAARY%2fAqLCT2gximg%2fs1600%2fOoty.jpg&ehk=U2gz9Vni3l%2bfmbfRnMe%2bQuujoxDERvuWbgkusZiQPMY%3d&risl=&pid=ImgRaw&r=0", 
+      "https://res.cloudinary.com/stay-list/image/upload/b_rgb:000000,co_rgb:ffffff,o_90,w_2800,f_auto/v1549609635/area/india/rajasthan-l.jpg", 
+      "https://historicalindiaholidays.com/wp-content/uploads/2021/08/jaipur-6-2.jpg",
+      "https://th.bing.com/th/id/OIP.Uji5oAABdaaBdWDBLUnLdgAAAA?rs=1&pid=ImgDetMain", 
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPkkJzJIfp4OeksQI4zBVK9Ivdy_bwTrj3DX-F0pnHKw2HHAUgemfMqL74eBIrFOBl_4kGx3M7RVQ0i4Zl0dlnAyE-kX7uKGE4lAZBZmeHPEcvA8eUdGh6S0nqZFDI6IVqVuSSatEJoj7Q8qUITuJfvt4NQD4zrNELiYo9l8_Nz0WVDZM4RJADvA-t/s1920/MURUDESHWAR%20TEMPLE.jpeg", 
+      "https://www.mistay.in/travel-blog/content/images/2020/06/bangalore-shivanasamudra-falls-149598588347-orijgp.jpg", 
+      "https://www.holidify.com/images/cmsuploads/compressed/attr_wiki_1765_20191212124429.jpg", 
+      "https://lp-cms-production.imgix.net/2024-08/GettyRF504541675.jpg?auto=format,compress&q=72&fit=crop&w=1200",
+      "https://assets-news.housing.com/news/wp-content/uploads/2022/08/31020547/places-to-visit-in-hampi-FEATURE-compressed.jpg", 
+      "https://www.swantour.com/blogs/wp-content/uploads/2019/05/Bike-Trip-to-Leh-Ladakh.jpg",
+      "https://lakshmisharath.com/wp-content/uploads/2021/01/Madurai-Samanar-Hills-carvings-teerthankaras-rays-768x576.jpg",
+      "https://lp-cms-production.imgix.net/2024-04/GettyImages-1828082685.jpg?auto=format,compress&q=72&fit=crop&w=1200", 
+      "https://lp-cms-production.imgix.net/2024-09/GettyRF160094250.jpg?auto=format,compress&q=72&fit=crop&w=1200",
+      "https://www.planetware.com/wpimages/2019/11/india-best-places-to-visit-varanasi.jpg", 
+      "https://www.planetware.com/wpimages/2022/03/india-best-places-to-visit-manali.jpg", 
+      "https://www.planetware.com/wpimages/2019/11/india-best-places-to-visit-mysore.jpg", 
+      "https://www.planetware.com/wpimages/2019/11/india-best-places-to-visit-amritsar.jpg", 
+      "https://www.planetware.com/wpimages/2019/11/india-best-places-to-visit-shimla.jpg"
+    ];
+
+    const placeNames = [
+      "Goa", "Pangong Lake", "Ooty", "Jaisalmer", "Fatehpur sikri",
+      "Taj Mahal", "Murudeshwar", "Shivanasamudra falls", "Lodhi Garden", "Darjeeling",
+      "Hampi", "Le Ladakh", "Samanar Hills", "National Park", "Delhi Redfort",
+      "Varanasi", "Manali", "Mysore", "Amritsar", "Shimla"
+    ];
+
+    const howToReach = [
+      "Fly to Goa International Airport or take a train to Madgaon.",
+      "Fly to Leh and take a cab to Pangong Lake.",
+      "Nearest airport is Coimbatore, train to Ooty via Mettupalayam.",
+      "Fly to Jodhpur or take train to Jaisalmer Junction.",
+      "Fly or train to Agra, then cab to Fatehpur Sikri.",
+      "Reach Agra by train or flight, then local cab.",
+      "Fly to Mangalore, then taxi or bus to Murudeshwar.",
+      "Fly to Bangalore, then drive to the falls.",
+      "Fly to Delhi, then metro or cab to Lodhi Garden.",
+      "Fly to Bagdogra, then toy train or cab to Darjeeling.",
+      "Fly to Hubli or train to Hospet, then bus to Hampi.",
+      "Fly to Leh, then bike or car to Ladakh.",
+      "Fly to Madurai, then cab to Samanar Hills.",
+      "Drive from any major city to nearby National Park.",
+      "Fly to Delhi, then metro/cab to Red Fort.",
+      "Fly to Varanasi or take train to Varanasi Junction.",
+      "Fly to Bhuntar or drive from Delhi.",
+      "Fly or train to Mysore directly.",
+      "Fly to Amritsar or take train to Amritsar Junction.",
+      "Fly to Chandigarh, then cab or toy train."
+    ];
+
+    const localFoods = [
+      "Goan Fish Curry, Bebinca",
+      "Momos, Thukpa",
+      "Ooty Varkey, Homemade Chocolates",
+      "Dal Baati Churma, Gatte ki Sabzi",
+      "Mughlai Cuisine, Bedai",
+      "Mughlai Biryani, Petha",
+      "South Indian Thali, Seafood",
+      "Bisi Bele Bath, Maddur Vada",
+      "Chole Bhature, Street Chaat",
+      "Darjeeling Tea, Thukpa",
+      "Ragi Mudde, Jolad Roti",
+      "Skyu, Chhutagi",
+      "Idiyappam, Jigarthanda",
+      "Wild Berries, Tribal Cuisine",
+      "Chole Bhature, Kachori",
+      "Banarasi Paan, Kachori Sabzi",
+      "Siddu, Madra",
+      "Mysore Pak, Bisi Bele Bath",
+      "Amritsari Kulcha, Lassi",
+      "Chana Madra, Sidu"
+    ];
+
+    const durations = [
+      "7 Days", "5 Days", "3 Days", "7 Days", "4 Days", "1 Day", 
+      "3 Days", "5 Days", "2 Days", "6 Days", "4 Days", "10 Days", 
+      "5 Days", "6 Days", "4 Days", "2 Days", "7 Days", "3 Days", 
+      "3 Days", "6 Days"
+    ];
+
+    const budgets = [
+      "₹5,000", "₹6,000", "₹4,500", "₹6,500", "₹4,000",
+      "₹7,000", "₹6,000", "₹5,500", "₹4,500", "₹5,000",
+      "₹5,500", "₹6,000", "₹3,500", "₹6,500", "₹4,000",
+      "₹7,000", "₹6,500", "₹5,000", "₹4,000", "₹6,000"
+    ];
+
+    const bestTimes = [
+      "Winter", "Summer", "Monsoon", "Winter", "Winter",
+      "Winter", "Monsoon", "Summer", "Winter", "Winter",
+      "Summer", "Monsoon", "Winter", "Summer", "Winter",
+      "Winter", "Monsoon", "Summer", "Winter", "Monsoon"
+    ];
+
+    const links = [
+      "file:///C:/Users/RADHIKA%20CHARY/OneDrive/Desktop/solo-travel%20-blog/pages/1goa.html", "http://127.0.0.1:5500/pages/2pangong.html", "http://127.0.0.1:5500/pages/3ooty.html", "http://127.0.0.1:5500/pages/4jaisalmer.html", "http://127.0.0.1:5500/pages/5fatehpursikri.html", 
+      "http://127.0.0.1:5500/pages/6tajmahal.html", "http://127.0.0.1:5500/pages/7murudeshwar.html", "http://127.0.0.1:5500/pages/8shivanasamudrafalls.html", "http://127.0.0.1:5500/pages/9lodhigarden.html", "http://127.0.0.1:5500/pages/10darjeeling.html",
+      "http://127.0.0.1:5500/pages/11hampi.html", "http://127.0.0.1:5500/pages/12leladakh.html", "http://127.0.0.1:5500/pages/13samanarhills.html", "http://127.0.0.1:5500/pages/14nationalpark.html", "http://127.0.0.1:5500/pages/15redfort.html", 
+      "http://127.0.0.1:5500/pages/16varanasi.html", "http://127.0.0.1:5500/pages/17manali.html", "http://127.0.0.1:5500/pages/18mysore.html", "http://127.0.0.1:5500/pages/19amritsar.html", "http://127.0.0.1:5500/pages/20shimla.html"
+    ];
+
+    // Function to create plan cards
+    const createPlanCards = () => {
+      images.slice(0, 20).forEach((img, index) => {
+        const card = document.createElement('div');
+        card.className = 'plan-card';
+
+        card.innerHTML = `
+          <img src="${img}" alt="${placeNames[index]}">
+          <h4>${placeNames[index]}</h4>
+          <p>Duration: ${durations[index]}</p>
+          <p>Budget: ${budgets[index]}</p>
+          <p>Best Time: ${bestTimes[index]}</p>
+          <p>How to reach: ${howToReach[index]}</p>
+          <p>Local foods: ${localFoods[index]}</p>
+          <a href="${links[index]}" class="select-btn">View Plan</a>
+        `;
+        
+        plansContainer.appendChild(card);
+      });
+    };
+
+    createPlanCards();
+
+    // Logout function to clear session and redirect to login page
+    function logout() {
+      // Clear session or perform logout logic here (e.g., remove cookies, clear local storage)
+      alert("Logging out...");
+      window.location.href = "/login";
+    }
+  </script>
+</body>
+</html>

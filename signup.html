@@ -1,0 +1,89 @@
+<!-- views/signup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background-repeat: no-repeat;
+      background-color: #7ad1ec;
+      background-size: contain;
+      background-position: top;
+      background-image: url(https://media.istockphoto.com/id/1227604086/vector/poster-on-the-theme-of-summer-travel-leisure-and-adventure-on-a-blue-background-hand-drawn.jpg?s=612x612&w=0&k=20&c=k8xYnHFMb-hVjWhEYBGKci5o0isFhsP4ntwc9CX6H9o=);
+    }
+
+    .container {
+      background: white;
+      width: 350px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    }
+
+    input, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+
+    <!-- Sign up form -->
+    <form id="signupForm">
+      <input type="email" id="email" placeholder="Enter your email" required><br>
+      <input type="password" id="password" placeholder="Create a password" required><br>
+      <input type="password" id="confirm_password" placeholder="Confirm password" required><br>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // stop form from submitting normally
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // Save the user to localStorage
+      const user = { email, password };
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // Instead of blocking alert, show a small alert and immediately redirect
+      setTimeout(function() {
+        alert('Signup successful!');
+        window.location.href = "home.html";
+      }, 10); // very small timeout to allow alert and then redirect immediately
+    });
+  </script>
+</body>
+</html>
