@@ -6,3 +6,4 @@ This project is a web-based platform designed for solo travelers who want to exp
 ![Image](https://github.com/user-attachments/assets/d6474f52-81a1-4bad-b7f7-5eede2af6959)
 ![Image](https://github.com/user-attachments/assets/adc6095f-c069-4071-bca6-6ab8fb965108)
 ![Image](https://github.com/user-attachments/assets/824f71da-aa16-403e-bf50-9686034a69c7)
+![Image](https://github.com/user-attachments/assets/6ea72ca2-ae96-4a8c-904e-9cda51fdc41d)
